@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+    <title>Todo List</title>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/public/index.html">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-check2-square" viewBox="0 0 16 16">
+                    <path
+                        d="M3 14.5A1.5 1.5 0 0 1 1.5 13V3A1.5 1.5 0 0 1 3 1.5h8a.5.5 0 0 1 0 1H3a.5.5 0 0 0-.5.5v10a.5.5 0 0 0 .5.5h10a.5.5 0 0 0 .5-.5V8a.5.5 0 0 1 1 0v5a1.5 1.5 0 0 1-1.5 1.5H3z" />
+                    <path
+                        d="m8.354 10.354 7-7a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0z" />
+                </svg>
+                To Do List
+            </a>
+        </div>
+    </nav>
+
+    <main class="container-xxl bd-gutter mt-3 my-md-4 bd-layout">
+        <div class="card">
+            <img src="https://53.fs1.hubspotusercontent-na1.net/hub/53/hubfs/To_Do_List.png?width=595&height=400&name=To_Do_List.png"
+                class="card-img-top" height="400vh" alt="todopicture">
+            <div class="card-body">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="inputTest" placeholder="Add New Todo or Update Todo"
+                        aria-label="Add New Todo" aria-describedby="button-addon2">
+                    <button class="btn btn-outline-secondary" type="button" onclick="addNewElement()">送出</button>
+                </div>
+            </div>
+            <div class="card-header">
+                事情列表
+            </div>
+            <ul class="list-group list-group-flush" id="listGroup">
+                <li class="list-group-item"></li>
+            </ul>
+            <div class="card-header">
+                完成列表
+            </div>
+            <ul class="list-group list-group-flush" id="achieveGroup">
+                <li class="list-group-item"></li>
+            </ul>
+        </div>
+        
+    </main>
+</body>
+<script>
+    function deleteOldElement(button) {
+        button.parentNode.parentNode.remove();
+    }
+
+    function achieveOldElement(button) {
+        button.parentNode.parentNode.remove();
+        document.getElementById("achieveGroup").prepend(button.parentNode.parentNode);
+    }
+
+    function editOldElement(button) {
+        console.log(button.parentNode.parentNode);
+        var t = button.parentNode.previousElementSibling;
+        t.innerHTML = document.getElementById("inputTest").value;
+        document.getElementById("inputTest").value = "";
+    }
+
+    function addNewElement() {
+        let inputValue = document.getElementById("inputTest").value;
+        document.getElementById("inputTest").value = "";
+        let listItem = document.createElement("li");
+        listItem.classList.add("list-group-item");
+        listItem.innerHTML = `     
+            <div class="event">${inputValue.trim()}</div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-outline-info" onclick="achieveOldElement(this)">完成</button>
+                <button class="btn btn-outline-success" onclick="editOldElement(this)">編輯</button>
+                <button class="btn btn-outline-danger" onclick="deleteOldElement(this)">刪除</button>
+            </div>
+               `
+        if (inputValue.trim() == "") {
+            alert("尚未輸入代辦事項");
+        }
+        else {
+            document.getElementById("listGroup").prepend(listItem);
+        }
+
+    }
+</script>
+
+</html>
